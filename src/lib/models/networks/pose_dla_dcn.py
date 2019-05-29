@@ -297,15 +297,14 @@ class DLA(nn.Module):
             model_weights = torch.load(data + name)
         else:
             model_url = get_model_url(data, name, hash)
-            import sys
-            print(sys.version)
-            print("download", model_url)
-            #model_weights = model_zoo.load_url(model_url)
-            #print(type(model_weights))
-            import pickle
-            #pickle.dump(model_weights, open("save.p", "wb"))
-            model_weights = pickle.load(open("/home/ec2-user/CenterNet/save.p", "rb"))
-            print("really I loaded")
+            model_weights = model_zoo.load_url(model_url)
+
+            # ============== a quick debug page just for using the cached weights =============
+            # import pickle
+            # #pickle.dump(model_weights, open("save.p", "wb"))
+            # model_weights = pickle.load(open("/home/ec2-user/CenterNet/save.p", "rb"))
+            # print("really I loaded")
+
         num_classes = len(model_weights[list(model_weights.keys())[-1]])
         self.fc = nn.Conv2d(
             self.channels[-1], num_classes,
