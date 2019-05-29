@@ -304,7 +304,7 @@ class DLA(nn.Module):
             #print(type(model_weights))
             import pickle
             #pickle.dump(model_weights, open("save.p", "wb"))
-            model_weights = pickle.load(open("save.p", "rb"))
+            model_weights = pickle.load(open("/home/ec2-user/CenterNet/save.p", "rb"))
             print("really I loaded")
         num_classes = len(model_weights[list(model_weights.keys())[-1]])
         self.fc = nn.Conv2d(

@@ -216,9 +216,10 @@ class Debugger(object):
   def show_all_imgs(self, pause=False, time=0):
     if not self.ipynb:
       for i, v in self.imgs.items():
-        cv2.imwrite('{}.jpg'.format(i), v)
-        plt.imshow(v)
-        plt.show()
+        cv2.imwrite('/home/ec2-user/CenterNet/{}.jpg'.format(i), v)
+        #plt.interactive(False)
+        #plt.imshow(v)
+        #plt.show()
         #cv2.imshow('{}'.format(i), v)
       if cv2.waitKey(0 if pause else 1) == 27:
         import sys

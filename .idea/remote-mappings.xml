@@ -6,7 +6,7 @@
         <remote-mappings server-id="python@sftp://ec2-user@ec2-3-89-66-117.compute-1.amazonaws.com:22/home/ec2-user/anaconda3/envs/pytorch_p36/bin/python">
           <settings>
             <list>
-              <mapping local-root="$PROJECT_DIR$" remote-root="/home/ec2-user/sshfs/CenterNet" />
+              <mapping local-root="$PROJECT_DIR$" remote-root="/home/ec2-user/CenterNet" />
             </list>
           </settings>
         </remote-mappings>
