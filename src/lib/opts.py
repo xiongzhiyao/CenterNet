@@ -269,6 +269,8 @@ class opts(object):
     print('training chunk_sizes:', opt.chunk_sizes)
 
     opt.root_dir = os.path.join(os.path.dirname(__file__), '..', '..')
+    # Hardcode dir should be avoided, will do later
+    opt.root_dir = '/home/ec2-user/CenterNet'
     opt.data_dir = os.path.join(opt.root_dir, 'data')
     opt.exp_dir = os.path.join(opt.root_dir, 'exp', opt.task)
     opt.save_dir = os.path.join(opt.exp_dir, opt.exp_id)
@@ -319,7 +321,7 @@ class opts(object):
       if opt.reg_offset:
         opt.heads.update({'reg': 2})
     elif opt.task == 'multi_pose':
-      # assert opt.dataset in ['coco_hp']
+      #assert opt.dataset in ['coco_hp']
       opt.flip_idx = dataset.flip_idx
       opt.heads = {'hm': opt.num_classes, 'wh': 2, 'hps': 34}
       if opt.reg_offset:

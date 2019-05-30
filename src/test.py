@@ -2,6 +2,9 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
+import multiprocessing
+multiprocessing.set_start_method('spawn', True)
+
 import _init_paths
 
 import os
@@ -31,10 +34,12 @@ class PrefetchDataset(torch.utils.data.Dataset):
     img_id = self.images[index]
     img_info = self.load_image_func(ids=[img_id])[0]
     img_path = os.path.join(self.img_dir, img_info['file_name'])
+
+    #print(img_path,self.img_dir,img_info['file_name'])
     image = cv2.imread(img_path)
     images, meta = {}, {}
-    for scale in opt.test_scales:
-      if opt.task == 'ddd':
+    for scale in self.opt.test_scales:
+      if self.opt.task == 'ddd':
         images[scale], meta[scale] = self.pre_process_func(
           image, scale, img_info['calib'])
       else:
@@ -47,8 +52,10 @@ class PrefetchDataset(torch.utils.data.Dataset):
 def prefetch_test(opt):
   os.environ['CUDA_VISIBLE_DEVICES'] = opt.gpus_str
 
+  opt = opts().init()
   Dataset = dataset_factory[opt.dataset]
-  opt = opts().update_dataset_info_and_set_heads(opt, Dataset)
+  
+  #opt = opts().update_dataset_info_and_set_heads(opt, Dataset)
   print(opt)
   Logger(opt)
   Detector = detector_factory[opt.task]

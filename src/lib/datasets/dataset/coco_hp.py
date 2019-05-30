@@ -30,7 +30,7 @@ class COCOHP(data.Dataset):
     
     self.acc_idxs = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
     self.data_dir = os.path.join(opt.data_dir, 'coco')
-    self.img_dir = os.path.join(self.data_dir, '{}2017'.format(split))
+    self.img_dir = os.path.join(self.data_dir, 'images/{}2017/'.format(split))
     if split == 'test':
       self.annot_path = os.path.join(
           self.data_dir, 'annotations', 
