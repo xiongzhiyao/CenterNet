@@ -11,7 +11,7 @@ class opts(object):
     self.parser = argparse.ArgumentParser()
     # basic experiment setting
     self.parser.add_argument('task', default='ctdet',
-                             help='ctdet | ddd | multi_pose | exdet')
+                             help='ctdet | ddd | multi_pose | exdet | multi_gable')
     self.parser.add_argument('--dataset', default='coco',
                              help='coco | kitti | coco_hp | pascal')
     self.parser.add_argument('--exp_id', default='default')
@@ -321,6 +321,16 @@ class opts(object):
       if opt.reg_offset:
         opt.heads.update({'reg': 2})
     elif opt.task == 'multi_pose':
+      #assert opt.dataset in ['coco_hp']
+      opt.flip_idx = dataset.flip_idx
+      opt.heads = {'hm': opt.num_classes, 'wh': 2, 'hps': 34}
+      if opt.reg_offset:
+        opt.heads.update({'reg': 2})
+      if opt.hm_hp:
+        opt.heads.update({'hm_hp': 17})
+      if opt.reg_hp_offset:
+        opt.heads.update({'hp_offset': 2})
+    elif opt.task == 'multi_gable':
       #assert opt.dataset in ['coco_hp']
       opt.flip_idx = dataset.flip_idx
       opt.heads = {'hm': opt.num_classes, 'wh': 2, 'hps': 34}
