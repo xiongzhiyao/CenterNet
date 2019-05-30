@@ -1,1 +1,2 @@
-python main.py multi_pose --exp_id hg_1x --dataset coco_hp --arch hourglass --batch_size 2 --master_batch 4 --lr 2.5e-4 --load_model /home/ec2-user/data/centernet/multi_pose_hg_3x.pth --gpus 0 --num_epochs 50 --lr_step 40
+python main.py multi_pose --exp_id hg_1x --dataset coco_hp --arch hourglass --batch_size 2 --master_batch 4 --lr 2.5e-4 --gpus 0 --num_epochs 50 --lr_step 40
+#--load_model /home/ec2-user/data/centernet/multi_pose_hg_3x.pth
