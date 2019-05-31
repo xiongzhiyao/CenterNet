@@ -28,9 +28,11 @@ class MultiGableDataset(data.Dataset):
 
   def __getitem__(self, index):
     img_id = self.images[index]
-    file_name = self.coco.loadImgs(ids=[img_id])[0]['file_name']
+    #file_name = self.coco.loadImgs(ids=[img_id])[0]['file_name']
+    file_name = self.hover.loadImgs(img_id)
     img_path = os.path.join(self.img_dir, file_name)
-    ann_ids = self.coco.getAnnIds(imgIds=[img_id])
+    ann_ids = img_id[1]
+    anns = self.hover.loadAnns(img_id)
     anns = self.coco.loadAnns(ids=ann_ids)
     num_objs = min(len(anns), self.max_objs)
 

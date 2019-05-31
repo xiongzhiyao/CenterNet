@@ -10,6 +10,40 @@ import os
 
 import torch.utils.data as data
 
+class HOVERDATA(object):
+  def __init__(self,annot_path):
+    with open(annot_path) as f:
+      d = json.load(f)
+    self.anno = d['orders']
+    self.gables = {}
+
+  def getImgIds(self):
+    ids = []
+    for data in self.anno:
+      imgs = data['cameras']
+      order_id = data['order_id']
+      for img in imgs:
+        image_id = img['image_id']
+        key = (order_id,image_id)
+        ids.append(key)
+        self.gables[key] = img['gables']
+    return ids
+
+  def loadImgs(self,key):
+    order_id, image_id = key
+    img_path = 'orders/order_{}/image_{}_order_{}.jpg'.format(order_id,image_id,order_id)
+    return img_path
+
+  def loadAnns(self,img_id):
+    gables = self.gables[img_id]
+    for gable in gables:
+      keypoints = np.array(gable)
+      left, top = np.min(keypoints[:,0]), np.min(keypoints[:,1])
+      right, bottom = np.max(gable[:,0]), np.max(gable[:,1])
+      width, height = right-left, bottom-top
+    return gable
+
+
 class HOVERHP(data.Dataset):
   num_classes = 1
   num_joints = 17
@@ -30,15 +64,18 @@ class HOVERHP(data.Dataset):
     
     self.acc_idxs = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
     self.data_dir = os.path.join(opt.data_dir, 'coco')
-    self.img_dir = os.path.join(self.data_dir, 'images/{}2017/'.format(split))
+    #self.img_dir = os.path.join(self.data_dir, 'images/{}2017/'.format(split))
+    self.img_dir = '/home/ec2-user/data/pose/hover-pose/house-pose-estimation.data/'
     if split == 'test':
       self.annot_path = os.path.join(
-          self.data_dir, 'annotations', 
-          'image_info_test-dev2017.json').format(split)
+          "/home/ec2-user/data/pose/hover-pose/house-pose-estimation.data/annotations/gable_all_in_image",
+          "test.json"
+          )
     else:
       self.annot_path = os.path.join(
-        self.data_dir, 'annotations', 
-        'person_keypoints_{}2017.json').format(split)
+          "/home/ec2-user/data/pose/hover-pose/house-pose-estimation.data/annotations/gable_all_in_image",
+          "val.json"
+          )
     self.max_objs = 32
     self._data_rng = np.random.RandomState(123)
     self._eig_val = np.array([0.2141788, 0.01817699, 0.00341571],
@@ -52,13 +89,17 @@ class HOVERHP(data.Dataset):
     self.opt = opt
 
     print('==> initializing coco 2017 {} data.'.format(split))
-    self.coco = coco.COCO(self.annot_path)
-    image_ids = self.coco.getImgIds()
+    
+    #self.coco = coco.COCO(self.annot_path)
+    #image_ids = self.coco.getImgIds()
+
+    self.hover = HOVERDATA(self.annot_path)
+    image_ids = self.hover.getImgIds()
 
     if split == 'train':
       self.images = []
       for img_id in image_ids:
-        idxs = self.coco.getAnnIds(imgIds=[img_id])
+        idxs = img_id
         if len(idxs) > 0:
           self.images.append(img_id)
     else:
