@@ -111,4 +111,4 @@ ENV/
 .mypy_cache/
 
 #hover
-.output/
+output/
