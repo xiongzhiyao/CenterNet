@@ -33,7 +33,7 @@ class MultiGableDataset(data.Dataset):
     img_path = os.path.join(self.img_dir, file_name)
     ann_ids = img_id[1]
     anns = self.hover.loadAnns(img_id)
-    anns = self.coco.loadAnns(ids=ann_ids)
+    #anns = self.coco.loadAnns(ids=ann_ids)
     num_objs = min(len(anns), self.max_objs)
 
     img = cv2.imread(img_path)

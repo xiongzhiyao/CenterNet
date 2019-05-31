@@ -36,12 +36,35 @@ class HOVERDATA(object):
 
   def loadAnns(self,img_id):
     gables = self.gables[img_id]
+    all_annotations = []
     for gable in gables:
       keypoints = np.array(gable)
+
+      '''calculate the bounding box'''
       left, top = np.min(keypoints[:,0]), np.min(keypoints[:,1])
-      right, bottom = np.max(gable[:,0]), np.max(gable[:,1])
+      right, bottom = np.max(keypoints[:,0]), np.max(keypoints[:,1])
       width, height = right-left, bottom-top
-    return gable
+
+      '''rearrange expoints to coco format'''
+      gable_np = np.array(keypoints)
+      gable_with_visibility_flag = np.concatenate([gable_np, 2 * np.ones(shape=(gable_np.shape[0], 1))], axis=1)
+      gable_with_visibility_flag = gable_with_visibility_flag.astype(int)
+      padded_keypoints = np.zeros((17,3),dtype=int) # TODO change this 17 to argument
+      padded_keypoints[0:14,:] = gable_with_visibility_flag
+
+      dict_gable = {
+        'category_id': 1,
+        'image_id': img_id[0],
+        'iscrowd': 0, # not sure it's meaning, though
+        'num_keypoints': 14,
+        'area': np.round(height*width, decimals=4), # we are not using coco dataset area, but let's keep it here
+        'bbox': [left, top, width, height],
+        'keypoints': padded_keypoints.flatten().tolist(),
+      }
+
+      all_annotations.append(dict_gable)
+
+    return all_annotations
 
 
 class HOVERHP(data.Dataset):
