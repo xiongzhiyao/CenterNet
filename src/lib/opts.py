@@ -97,6 +97,8 @@ class opts(object):
     self.parser.add_argument('--trainval', action='store_true',
                              help='include validation in training and '
                                   'test on test set')
+    self.parser.add_argument('--train_data_limit', type=int, default=2000,
+                             help='limit on training data for debugging.')
 
     # test
     self.parser.add_argument('--flip_test', action='store_true',
@@ -363,8 +365,9 @@ class opts(object):
         'default_resolution': [512, 512], 'num_classes': 1, 
         'mean': [0.408, 0.447, 0.470], 'std': [0.289, 0.274, 0.278],
         'dataset': 'hover_hp', 'num_joints': 17,
-        'flip_idx': [[1, 2], [3, 4], [5, 6], [7, 8], [9, 10], 
-                     [11, 12], [13, 14], [15, 16]]},
+        'flip_idx': [[0, 7],[1, 8],[2, 9],
+              [3, 10],[4, 11],[5, 12],
+              [6, 13]]},
       'ddd': {'default_resolution': [384, 1280], 'num_classes': 3, 
                 'mean': [0.485, 0.456, 0.406], 'std': [0.229, 0.224, 0.225],
                 'dataset': 'kitti'},

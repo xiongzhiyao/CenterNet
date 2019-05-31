@@ -75,16 +75,26 @@ class HOVERHP(data.Dataset):
                    dtype=np.float32).reshape(1, 1, 3)
   std  = np.array([0.28863828, 0.27408164, 0.27809835],
                    dtype=np.float32).reshape(1, 1, 3)
-  flip_idx = [[1, 2], [3, 4], [5, 6], [7, 8], [9, 10], 
-              [11, 12], [13, 14], [15, 16]]
+  flip_idx = [[0, 7],
+              [1, 8],
+              [2, 9],
+              [3, 10],
+              [4, 11],
+              [5, 12],
+              [6, 13]]
   def __init__(self, opt, split):
     super(HOVERHP, self).__init__()
-    self.edges = [[0, 1], [0, 2], [1, 3], [2, 4], 
-                  [4, 6], [3, 5], [5, 6], 
-                  [5, 7], [7, 9], [6, 8], [8, 10], 
-                  [6, 12], [5, 11], [11, 12], 
-                  [12, 14], [14, 16], [11, 13], [13, 15]]
-    
+    self.edges = [[0,1], [0,2],
+                  [3,4], [5,6],
+                  [4,6],
+                  [7,8], [7,9],
+                  [10,11], [12,13],
+                  [11,13],
+                  [0,7],
+                  [1,9], [2,8],
+                  [4,13],[6,11]
+                  ]
+
     self.acc_idxs = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
     self.data_dir = os.path.join(opt.data_dir, 'coco')
     #self.img_dir = os.path.join(self.data_dir, 'images/{}2017/'.format(split))
