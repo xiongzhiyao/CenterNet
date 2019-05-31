@@ -129,11 +129,14 @@ class HOVERHP(data.Dataset):
     self.hover = HOVERDATA(self.annot_path)
     image_ids = self.hover.getImgIds()
 
+    train_limit = self.opt.train_data_limit #TODO: only for debugging, limit the number of training data
+    counter = 0
     if split == 'train':
       self.images = []
       for img_id in image_ids:
         idxs = img_id
-        if len(idxs) > 0:
+        if len(idxs) > 0 and counter < train_limit: #only for understanding the capacity of the model
+          counter += 1
           self.images.append(img_id)
     else:
       self.images = image_ids

@@ -61,7 +61,7 @@ class COCOHP(data.Dataset):
       self.images = []
       for img_id in image_ids:
         idxs = self.coco.getAnnIds(imgIds=[img_id])
-        if len(idxs) and counter < train_limit > 0: #only for understanding the capacity of the model
+        if len(idxs) > 0 and counter < train_limit: #only for understanding the capacity of the model
           counter += 1
           self.images.append(img_id)
     else:
