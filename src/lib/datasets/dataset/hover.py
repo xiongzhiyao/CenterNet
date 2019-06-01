@@ -34,15 +34,31 @@ class HOVERDATA(object):
     img_path = 'orders/order_{}/image_{}_order_{}.jpg'.format(order_id,image_id,order_id)
     return img_path
 
-  def loadAnns(self,img_id):
+  def loadAnns(self,img_id,shape):
     gables = self.gables[img_id]
     all_annotations = []
+
+    h,w,_ = shape
+    
+    DIA = 0.2 # TODO make this opt
+
     for gable in gables:
       keypoints = np.array(gable)
 
       '''calculate the bounding box'''
       left, top = np.min(keypoints[:,0]), np.min(keypoints[:,1])
       right, bottom = np.max(keypoints[:,0]), np.max(keypoints[:,1])
+      
+      left *= (1. - DIA)
+      top *= (1. - DIA)
+      right *= (1. + DIA)
+      bottom *= (1. + DIA)
+
+      left = max(left,0)
+      top = max(top,0)
+      right = min(right,w)
+      bottom = min(bottom,h)
+
       width, height = right-left, bottom-top
 
       '''rearrange expoints to coco format'''
@@ -104,7 +120,12 @@ class HOVERHP(data.Dataset):
           "/home/ec2-user/data/pose/hover-pose/house-pose-estimation.data/annotations/gable_all_in_image",
           "test.json"
           )
-    else:
+    elif split == 'train':
+      self.annot_path = os.path.join(
+          "/home/ec2-user/data/pose/hover-pose/house-pose-estimation.data/annotations/gable_all_in_image",
+          "train.json"
+          )
+    elif split == 'val':
       self.annot_path = os.path.join(
           "/home/ec2-user/data/pose/hover-pose/house-pose-estimation.data/annotations/gable_all_in_image",
           "val.json"
@@ -135,8 +156,10 @@ class HOVERHP(data.Dataset):
       self.images = []
       for img_id in image_ids:
         idxs = img_id
-        if len(idxs) > 0 and counter < train_limit: #only for understanding the capacity of the model
+        if len(idxs) > 0: #only for understanding the capacity of the model
           counter += 1
+          if train_limit and counter > train_limit:
+            break
           self.images.append(img_id)
     else:
       self.images = image_ids

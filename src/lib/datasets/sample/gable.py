@@ -31,12 +31,12 @@ class MultiGableDataset(data.Dataset):
     #file_name = self.coco.loadImgs(ids=[img_id])[0]['file_name']
     file_name = self.hover.loadImgs(img_id)
     img_path = os.path.join(self.img_dir, file_name)
+    img = cv2.imread(img_path)
+
     ann_ids = img_id[1]
-    anns = self.hover.loadAnns(img_id)
+    anns = self.hover.loadAnns(img_id,img.shape)
     #anns = self.coco.loadAnns(ids=ann_ids)
     num_objs = min(len(anns), self.max_objs)
-
-    img = cv2.imread(img_path)
 
     height, width = img.shape[0], img.shape[1]
     c = np.array([img.shape[1] / 2., img.shape[0] / 2.], dtype=np.float32)
