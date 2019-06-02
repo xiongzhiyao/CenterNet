@@ -365,9 +365,15 @@ class opts(object):
         'default_resolution': [512, 512], 'num_classes': 1, 
         'mean': [0.408, 0.447, 0.470], 'std': [0.289, 0.274, 0.278],
         'dataset': 'hover_hp', 'num_joints': 17,
-        'flip_idx': [[0, 7],[1, 8],[2, 9],
-              [3, 10],[4, 11],[5, 12],
-              [6, 13]]},
+        'flip_idx': [[0, 0],    # apex stays the same
+                    [1, 2],    # fascia endpoint swap
+                    [3, 5],    # post tops swap
+                    [4, 6],    # post bottoms swap
+                    # back pentagon
+                    [7, 7],    # apex stays the same
+                    [8, 9],    # fascia endpoint swap
+                    [10, 12],  # post tops swap
+                    [11, 13]]},
       'ddd': {'default_resolution': [384, 1280], 'num_classes': 3, 
                 'mean': [0.485, 0.456, 0.406], 'std': [0.229, 0.224, 0.225],
                 'dataset': 'kitti'},

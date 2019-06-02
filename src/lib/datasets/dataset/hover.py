@@ -91,13 +91,15 @@ class HOVERHP(data.Dataset):
                    dtype=np.float32).reshape(1, 1, 3)
   std  = np.array([0.28863828, 0.27408164, 0.27809835],
                    dtype=np.float32).reshape(1, 1, 3)
-  flip_idx = [[0, 7],
-              [1, 8],
-              [2, 9],
-              [3, 10],
-              [4, 11],
-              [5, 12],
-              [6, 13]]
+  flip_idx = [[0, 0],    # apex stays the same
+              [1, 2],    # fascia endpoint swap
+              [3, 5],    # post tops swap
+              [4, 6],    # post bottoms swap
+              # back pentagon
+              [7, 7],    # apex stays the same
+              [8, 9],    # fascia endpoint swap
+              [10, 12],  # post tops swap
+              [11, 13]]
   def __init__(self, opt, split):
     super(HOVERHP, self).__init__()
     self.edges = [[0,1], [0,2],

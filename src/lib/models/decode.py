@@ -524,6 +524,7 @@ def multi_pose_decode(
                       ys - wh[..., 1:2] / 2,
                       xs + wh[..., 0:1] / 2, 
                       ys + wh[..., 1:2] / 2], dim=2)
+  #hm_hp = None #debug use
   if hm_hp is not None:
       hm_hp = _nms(hm_hp)
       thresh = 0.1
