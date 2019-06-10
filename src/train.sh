@@ -1,3 +1,3 @@
-python main.py multi_gable --exp_id dla_new --dataset hover_hp --flip 0 --K 10 --arch dla_34 --batch_size 15 --master_batch 4 --lr 7e-5 --gpus 0 --num_epochs 50 --lr_step 35 --num_workers 4 --train_data_limit 0 --load_model /home/ec2-user/data/centernet/multi_pose_dla_1x.pth
+python main.py multi_gable --exp_id dla_new --dataset hover_hp --flip 0 --K 10 --arch dla_34 --batch_size 15 --master_batch 4 --lr 7e-5 --gpus 0 --num_epochs 50 --lr_step 35 --num_workers 4 --train_data_limit 0 --load_model /home/ec2-user/CenterNet/exp/multi_gable/dla_new/model_last.pth
 #--load_model /home/ec2-user/CenterNet/exp/multi_gable/dla_1x/model_last.pth
 #--load_model /home/ec2-user/data/centernet/multi_pose_hg_3x.pth
