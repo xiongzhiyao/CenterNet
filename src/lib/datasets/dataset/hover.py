@@ -40,7 +40,7 @@ class HOVERDATA(object):
 
     h,w,_ = shape
     
-    DIA = 0.2 # TODO make this opt
+    DIA = 0.1 # TODO make this opt
 
     for gable in gables:
       keypoints = np.array(gable)
@@ -116,20 +116,20 @@ class HOVERHP(data.Dataset):
     self.acc_idxs = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
     self.data_dir = os.path.join(opt.data_dir, 'coco')
     #self.img_dir = os.path.join(self.data_dir, 'images/{}2017/'.format(split))
-    self.img_dir = '/home/ec2-user/data/pose/hover-pose/house-pose-estimation.data/'
+    self.img_dir = '/home/ec2-user/data/pose/hover-pose/i2/'
     if split == 'test':
       self.annot_path = os.path.join(
-          "/home/ec2-user/data/pose/hover-pose/house-pose-estimation.data/annotations/gable_all_in_image",
+          "/home/ec2-user/data/pose/hover-pose/i2/annotation/",
           "test.json"
           )
     elif split == 'train':
       self.annot_path = os.path.join(
-          "/home/ec2-user/data/pose/hover-pose/house-pose-estimation.data/annotations/gable_all_in_image",
+          "/home/ec2-user/data/pose/hover-pose/i2/annotation/",
           "train.json"
           )
     elif split == 'val':
       self.annot_path = os.path.join(
-          "/home/ec2-user/data/pose/hover-pose/house-pose-estimation.data/annotations/gable_all_in_image",
+          "/home/ec2-user/data/pose/hover-pose/i2/annotation/",
           "val.json"
           )
     self.max_objs = 32
