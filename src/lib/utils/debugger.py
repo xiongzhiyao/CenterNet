@@ -5,6 +5,7 @@ from __future__ import print_function
 import matplotlib.pyplot as plt
 import numpy as np
 import cv2
+import time
 from .ddd_utils import compute_box_3d, project_to_image, draw_box_3d
 
 class Debugger(object):
@@ -236,11 +237,13 @@ class Debugger(object):
                                        points[i][j][1] * self.down_ratio),
                    3, (int(c[0]), int(c[1]), int(c[2])), -1)
 
-  def show_all_imgs(self, pause=False, time=0):
+  def show_all_imgs(self, pause=False, time_=0):
     if not self.ipynb:
       for i, v in self.imgs.items():
-        cv2.imwrite('/home/ec2-user/CenterNet/output/{}.jpg'.format(i), v)
-        print("but, yeah, just be patient, and no plot would you")
+        ts = time.time()
+        tsstr = str(ts)
+        cv2.imwrite('/home/ec2-user/data/output/i2_debug/{}-{}.jpg'.format(i,tsstr), v)
+        #print("but, yeah, just be patient, and no plot would you")
         #cv2.imshow('{}'.format(i), v)
       if cv2.waitKey(0 if pause else 1) == 27:
         import sys
